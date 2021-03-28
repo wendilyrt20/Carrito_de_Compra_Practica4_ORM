@@ -40,8 +40,8 @@ public class Main {
         Controladora control = new Controladora(); //Instancia controladora
         control.agregarProducto();
 
-        ProductoServicios.getInstancia().findAll();
-        VentasProductosServicios.getInstancia().findAll();
+      //  ProductoServicios.getInstancia().findAll();
+      //  VentasProductosServicios.getInstancia().findAll();
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
