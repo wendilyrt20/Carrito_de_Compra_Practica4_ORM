@@ -1,4 +1,5 @@
 package edu.pucmm.eict.DataBase;
+import edu.pucmm.eict.Servicios.ProductoServicios;
 import org.h2.tools.Server;
 import java.sql.SQLException;
 
@@ -34,6 +35,7 @@ public class DataBase {
         String status = Server.createWebServer("-trace", "-webPort", "0").start().getStatus();
         System.out.println("Status Web: "+status);
 
+        ProductoServicios.getInstancia().getEntityManager();
         System.out.println("INICIO BASE DE DATO CORRECTO");
     }catch (SQLException ex){
         System.out.println("Problema con la base de datos: "+ex.getMessage());
