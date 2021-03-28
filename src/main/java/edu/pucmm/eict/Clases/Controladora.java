@@ -61,11 +61,11 @@ public class Controladora{
 //////////////////////////////////////////////////////////////////////
 
 
-    public void agregarProducto(){
+   /* public void agregarProducto(){
         for (Producto p: ProductoServicios.getInstancia().findAll()) {
             listaProductos.add(p );
         }
-    }
+    }*/
 
 
 

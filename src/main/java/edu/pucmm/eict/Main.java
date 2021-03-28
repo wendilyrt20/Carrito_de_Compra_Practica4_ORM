@@ -2,6 +2,7 @@ package edu.pucmm.eict;
 
 import edu.pucmm.eict.Clases.*;
 import edu.pucmm.eict.DataBase.DataBase;
+import edu.pucmm.eict.DataBase.DataBaseServices;
 import edu.pucmm.eict.Servicios.*;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
@@ -38,7 +39,7 @@ public class Main {
 ////////////////////////////////////////////////////////////////////////////
 
         Controladora control = new Controladora(); //Instancia controladora
-        control.agregarProducto();
+      //  control.agregarProducto();
 
       //  ProductoServicios.getInstancia().findAll();
       //  VentasProductosServicios.getInstancia().findAll();
@@ -79,7 +80,7 @@ public class Main {
            // List<Producto> producto = ProductoServicios.getInstancia().findAll();
             List<Foto> foto = FotoServicios.getInstancia().findAll();
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
+            EntityManagerFactory emf = DataBaseServices.emf;
             EntityManager ent = emf.createEntityManager();
 
             Query q = ent.createQuery("Select count (p.id) from Producto p");
@@ -374,7 +375,7 @@ public class Main {
         app.get("/productoEliminar/:id",ctx -> {
             int id = ctx.pathParam("id",Integer.class).get();
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
+            EntityManagerFactory emf = DataBaseServices.emf;
             EntityManager ent = emf.createEntityManager();
             ent.getTransaction().begin();
             Query qr = ent.createQuery("DELETE FROM Foto foto WHERE foto.producto.id= "+id);
@@ -414,7 +415,7 @@ public class Main {
            // int id = 1;
             System.out.println("------------------>" + id);
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
+            EntityManagerFactory emf = DataBaseServices.emf;
             EntityManager ent = emf.createEntityManager();
             Query query = ent.createQuery("SELECT c from Comentario c where c.producto.id = " + id);
             List<Comentario> lista = (List<Comentario>)query.getResultList();

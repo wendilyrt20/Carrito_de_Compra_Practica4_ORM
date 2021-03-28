@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class DataBaseServices<T> {
-    private static EntityManagerFactory emf;
+public  class DataBaseServices<T> {
+    public static EntityManagerFactory emf;
     private Class<T> claseEntidad;
 
 
