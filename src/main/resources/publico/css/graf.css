@@ -1,0 +1,30 @@
+
+
+
+.img{
+    height: 100px;
+
+}
+
+.main {
+    justify-content: end;
+    height: 80vh;
+    padding: 25px;
+}
+
+body{
+    padding: 100px;
+    column-width: max-content;
+}
+
+.table{
+    align-content: center;
+    column-width: min-content;
+    float: left;
+}
+.nav {
+    column-width: 100px;
+    width: content-box;
+    height: 50px;
+    justify-content: end;
+}

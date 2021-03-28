@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+mainClassName='edu.pucmm.eict.Main'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation 'io.javalin:javalin:3.13.0'
+    compile "org.slf4j:slf4j-simple:1.7.28"
+    compile 'org.thymeleaf:thymeleaf:3.0.5.RELEASE'
+
+    implementation 'com.h2database:h2:1.4.200'
+    compile 'org.jasypt:jasypt:1.9.3'
+
+    //Procesamiento JSON para Javalin.
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+    //ORM - Hibernate.
+    compile 'org.hibernate:hibernate-core:5.4.17.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.4.17.Final' //JPA
+
+}
+
+test {
+    useJUnitPlatform()
+}
+shadowJar{
+    baseName = 'appORM'
+    classifier = ''
+    archiveVersion = ''
+}
