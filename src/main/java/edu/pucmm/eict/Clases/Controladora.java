@@ -68,14 +68,14 @@ public class Controladora{
     }*/
 
 
-
+/*
     public void agregarVentas(){
         for (VentasProductos v: VentasProductosServicios.getInstancia().findAll()) {
             listaVentasProductos.add(v); ///borrar bdd para que no se sobre escriba lo que se tenia
         }
     }
 
-
+*/
 /*
     public void addProductoDB(Producto producto) throws SQLException {
         String sqlQuery = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, CANTIDAD) values(?,?,?);";

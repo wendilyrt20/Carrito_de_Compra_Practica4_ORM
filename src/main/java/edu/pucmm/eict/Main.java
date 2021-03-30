@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.servlet.http.Cookie;
@@ -33,16 +32,16 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-            DataBase.getInstancia().startDb();
+        DataBase.getInstancia().startDb();
 
 ////////////////////////BDD////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
         Controladora control = new Controladora(); //Instancia controladora
-      //  control.agregarProducto();
+        //  control.agregarProducto();
 
-      //  ProductoServicios.getInstancia().findAll();
-      //  VentasProductosServicios.getInstancia().findAll();
+        //  ProductoServicios.getInstancia().findAll();
+        //  VentasProductosServicios.getInstancia().findAll();
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,10 +65,10 @@ public class Main {
         });
 */
 
-
         app.get("/", ctx -> {
            ctx.redirect("/1");
         });
+
 
 
         app.get("/:paginacion", ctx -> {
@@ -79,10 +78,7 @@ public class Main {
 
            // List<Producto> producto = ProductoServicios.getInstancia().findAll();
             List<Foto> foto = FotoServicios.getInstancia().findAll();
-
-            EntityManagerFactory emf = DataBaseServices.emf;
-            EntityManager ent = emf.createEntityManager();
-
+            EntityManager ent = ProductoServicios.getInstancia().getEntityManager();
             Query q = ent.createQuery("Select count (p.id) from Producto p");
             Long cantP = (Long) q.getSingleResult();
             float totalPagina = (float) (Math.ceil(cantP / 10));
@@ -242,23 +238,23 @@ public class Main {
             String usuario= ctx.formParam("username");
             String pass = ctx.formParam("password");
             System.out.println("LOGIN");
-            if (usuario.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("admin")){
+            Usuario user = new Usuario(usuario,usuario,pass);
+            UsuarioServicios.getInstancia().editar(user); //merge transaccion
+            if (usuario.equalsIgnoreCase("admin")  && pass.equalsIgnoreCase("admin")){
                 System.out.println("USER CORRECTO");
-                Usuario admin = new Usuario("admin", usuario, pass);
-                //UsuarioServicios.getInstancia().crear(admin);
-               // control.addUsuario(admin);
-                ctx.sessionAttribute("admin", admin);
+               ctx.sessionAttribute("admin", user);
                 ctx.redirect(tempURI);
 
-
                 if ( ctx.formParam("rememberMe")!= null){
+
+                    ctx.attribute("user", user.getUsuario());
                     StrongTextEncryptor enc = new StrongTextEncryptor();
-                    enc.setPassword("pass");
-                    String adminEncryptor = enc.encrypt(admin.getPassword());
+                    enc.setPassword("passEncryptation");
+                    String adminEncryptor = enc.encrypt(user.getUsuario());
                     ctx.cookie("rememberMe", adminEncryptor,60480); //Coockie con duracion 1 semana
                     ctx.result("Cookie creada...");
-                    ctx.redirect(tempURI);
                 }
+
             } else {
                 ctx.redirect("/1/adminP");
             }
@@ -375,8 +371,7 @@ public class Main {
         app.get("/productoEliminar/:id",ctx -> {
             int id = ctx.pathParam("id",Integer.class).get();
 
-            EntityManagerFactory emf = DataBaseServices.emf;
-            EntityManager ent = emf.createEntityManager();
+            EntityManager ent = ProductoServicios.getInstancia().getEntityManager();
             ent.getTransaction().begin();
             Query qr = ent.createQuery("DELETE FROM Foto foto WHERE foto.producto.id= "+id);
             System.out.println("PRODUCTO--->"+id);
@@ -387,10 +382,10 @@ public class Main {
         });
 
         app.get("/comentario/:id", ctx -> {
-            tempURI= ctx.req.getRequestURI();
+           // tempURI= ctx.req.getRequestURI();
             int id = ctx.pathParam("id",Integer.class).get();
             Producto producto = control.buscarProducto(id);
-            System.out.println("Para comentar--->" + id);
+            System.out.println("Para comentar--->" + producto.getId());
             Map<String,Object> modelo = new HashMap<>();
             modelo.put("producto", producto);
             ctx.render("/Templates/comentario.html",modelo);
@@ -401,11 +396,11 @@ public class Main {
             int id = ctx.formParam("id",Integer.class).get();
             String comentario = ctx.formParam("comentario");
             Producto p = control.buscarProducto(id);
-
+            System.out.println(p.getNombre());
             Comentario comm= new Comentario(comentario,p);
             ComentarioServicio.getInstancia().crear(comm);
             System.out.println("COMENTARIO BIEN------>");
-            ctx.redirect("/");
+            ctx.redirect("/1");
 
         });
 
@@ -415,8 +410,7 @@ public class Main {
            // int id = 1;
             System.out.println("------------------>" + id);
 
-            EntityManagerFactory emf = DataBaseServices.emf;
-            EntityManager ent = emf.createEntityManager();
+            EntityManager ent = ProductoServicios.getInstancia().getEntityManager();
             Query query = ent.createQuery("SELECT c from Comentario c where c.producto.id = " + id);
             List<Comentario> lista = (List<Comentario>)query.getResultList();
             System.out.println("Productos a listar comentario--->" + id);

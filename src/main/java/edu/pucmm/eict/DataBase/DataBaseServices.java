@@ -1,6 +1,8 @@
 package edu.pucmm.eict.DataBase;
 
+import edu.pucmm.eict.Clases.Foto;
 import edu.pucmm.eict.Main;
+import edu.pucmm.eict.Servicios.FotoServicios;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +15,24 @@ import java.util.StringTokenizer;
 public  class DataBaseServices<T> {
     public static EntityManagerFactory emf;
     private Class<T> claseEntidad;
+
+
+    private static DataBaseServices instancia;
+
+    public DataBaseServices() {
+
+    }
+
+    public static DataBaseServices getInstancia(){
+        if(instancia==null){
+            instancia = new DataBaseServices();
+        }
+        return instancia;
+    }
+
+
+
+
 
 
     public DataBaseServices(Class<T> claseEntidad) {

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Agregar Comentario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link href="/css/graf.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
 <div>
@@ -11,17 +13,19 @@
     <div class="d-flex align-items-center justify-content-center " style="height:80vh">
 
         <form action="/crear/comentario" method="POST" th:each="p: ${producto}" >
-            <h1>Crear Producto</h1>
+            <h1 >Crear Comentario</h1>
             <div>
 
                 <div class="mb-3">
                     <input name ="id" type="text" th:value="${p.id}" class="form-control" style="display: none"> <!--style="display:none" -->
                 </div>
                 <div class="mb-3">
+                    <h6>Nombre del Producto</h6>
                     <input name="nombre"  type="text" th:value="${p.nombre}" class="form-control"  disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="comentario" class="form-label">Descripcion</label>
+                    <h6>Comentario</h6>
+
                     <input name="comentario" type="text"  class="form-control" id="comentario" required="required">
                 </div>
 
